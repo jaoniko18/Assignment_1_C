@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug C (lldb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/main",   // the program you compiled
+      "args": [],                             // add program arguments here if needed
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "MIMode": "lldb",                       // for macOS
+      "preLaunchTask": "build",
+      "externalConsole": false,               // true = open new terminal
+      "console": "integratedTerminal"         // where scanf() input will work
+    }
+  ]
+}
