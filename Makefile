@@ -1,5 +1,5 @@
 CC = gcc 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -fPIC -arch arm64
 LDFLAGS = -L. -lclassloops -lclassrec
 
 %.o: %.c 
@@ -26,11 +26,11 @@ OBJECTS = main.o
 main: ${OBJECTS} libclassloops.a libclassrec.so libclassrec.a libclassloops.so
 	${CC} ${CFLAGS} ${OBJECTS} ${LDFLAGS} -o $@
 
-mains: ${OBJECTS} libclassrec.a 
-	${CC} ${CFLAGS} ${OBJECTS} -L. lclassrec -o mains
+mains: ${OBJECTS} libclassrec.a  libclassloops.a
+	${CC} ${CFLAGS} ${OBJECTS} -L. -lclassrec -lclassloops -o mains
 
-maindloop: ${OBJECTS} libclassloops.so
-	${CC} ${CFLAGS} ${OBJECTS} -L. -lclassloops -o maindloop
+maindloop: ${OBJECTS} libclassloops.so libclassrec.so
+	${CC} ${CFLAGS} ${OBJECTS} -L. -lclassloops -lclassrec -o maindloop
 
 maindrec: ${OBJECTS} libclassrec.so
 	${CC} ${CFLAGS} ${OBJECTS} -L. -lclassrec -o maindrec

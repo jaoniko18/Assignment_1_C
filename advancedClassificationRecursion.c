@@ -4,7 +4,7 @@
 #include <string.h>
 #include "NumClass.h"
 
-int isArmstrongRecursive(int number)
+int isArmstrong(int number)
 {
     if (number < 0)
         return 0;
@@ -35,7 +35,7 @@ int ArmHelper(int number, int temp, int sum)
     return ArmHelper(number, cutNumber, sum);
 }
 
-int isPalindromeRecursive(int number)
+int isPalindrome(int number)
 {
     if (number < 0)
         return 0;

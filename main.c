@@ -3,7 +3,7 @@
 
 int main()
 {
-    if (isArmstrongRecursive(407) == 1)
+    if (isArmstrong(407) == 1)
         printf("IS ARM REC\n");
     else
         printf("NOT ARM REC\n");
@@ -16,7 +16,7 @@ int main()
     int count_Armstrong  = 0;
     int count_Palindrome = 0;
 
-    if (!isPalindromeRecursive(33433))
+    if (!isPalindrome(33433))
         printf("not pal\n");
     else
         printf("pal\n");

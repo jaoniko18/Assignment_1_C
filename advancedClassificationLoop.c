@@ -53,18 +53,3 @@ int isPalindrome(int number)
     }
     return 1;
 }
-
-int Factorial(int number)
-{
-    if (number < 0)
-        return 0;
-    int i   = 1;
-    int sum = 1;
-    while (i <= number)
-    {
-        sum = sum * i;
-        i++;
-    }
-
-    return sum;
-}
