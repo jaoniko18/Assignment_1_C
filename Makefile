@@ -1,35 +1,48 @@
-CC = gcc
+CC = gcc 
+CFLAGS = -Wall -Wextra
+LDFLAGS = -L. -lclassloops -lclassrec
 
-%.o: %.c
-	$(CC) -Wall -Wextra -c $<
+%.o: %.c 
+	${CC} ${CFLAGS} -fPIC -c $< -o $@
+
+LIBOJECTS1 = advancedClassificationLoop.o BasicClassification.o
+libclassloops.a: ${LIBOJECTS1}
+	ar rcs $@ $^
+
+LIBOJECTS3 = BasicClassification.o advancedClassificationRecursion.o
+libclassrec.a: ${LIBOJECTS3}
+	ar rcs $@ $^
+
+LIBOJECTS4 = BasicClassification.o advancedClassificationLoop.o 
+libclassloops.so: ${LIBOJECTS4}
+	${CC} -shared -o $@ $^
+
+LIBOJECTS2 = advancedClassificationRecursion.o BasicClassification.o
+libclassrec.so: ${LIBOJECTS2}
+	${CC} -shared -o $@ $^
 
 
-LIBOBJECTS1 = advancedClassificationLoop.o BasicClassification.o
-libclassloops.a: ${LIBOBJECTS1}
-	ar rcs libclassloops.a ${LIBOBJECTS1}
-OBJECTS  = main.o 
+OBJECTS = main.o
+main: ${OBJECTS} libclassloops.a libclassrec.so libclassrec.a libclassloops.so
+	${CC} ${CFLAGS} ${OBJECTS} ${LDFLAGS} -o $@
 
-LIBOBJECTS2 = advancedClassificationRecursion.o 
-libclassrec.a: ${LIBOBJECTS2}
-	ar rcs libclassrec.a ${LIBOBJECTS2}
+mains: ${OBJECTS} libclassrec.a 
+	${CC} ${CFLAGS} ${OBJECTS} -L. lclassrec -o mains
+
+maindloop: ${OBJECTS} libclassloops.so
+	${CC} ${CFLAGS} ${OBJECTS} -L. -lclassloops -o maindloop
+
+maindrec: ${OBJECTS} libclassrec.so
+	${CC} ${CFLAGS} ${OBJECTS} -L. -lclassrec -o maindrec
 
 
-${CC} -Wall -fpic -c advancedClassificationRecursion
-	${CC} -shared advancedClassificationRecursion.so
-${CC} -shared advancedClassificationRecursion.o libclassrec.so
 
-${CC} -Wall -c -I/usr/lib/include
-	-L/usr/lib/bin -lutils -o main
-
-recursives: libclassrec.a
+recursived: libclassrec.so
 loops: libclassloops.a
-main: ${OBJECTS} libclassloops.a libclassrec.a
-	${CC} ${OBJECTS} -lclassloops -lclassrec -L. -o main
+recursives: libclassrec.a
+loopd: libclassloops.so
 
-
-
-all: loops main
+all: loops loopd recursives recursived main mains maindloop maindrec
 
 clean:
 	rm -f *.o *.a main
-
